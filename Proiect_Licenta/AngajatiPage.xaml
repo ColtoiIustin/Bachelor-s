@@ -1,15 +1,19 @@
-﻿<UserControl x:Class="Proiect_Licenta.AngajatiPage"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Proiect_Licenta"
+             xmlns:DatabaseModel="clr-namespace:DatabaseModel;assembly=DatabaseModel" x:Class="Proiect_Licenta.AngajatiPage"
              mc:Ignorable="d" 
-            d:DesignHeight="365" d:DesignWidth="750">
-    <Grid>
+            d:DesignHeight="365" d:DesignWidth="750" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="angajatiViewSource" d:DesignSource="{d:DesignInstance {x:Type DatabaseModel:Angajati}, CreateList=True}"/>
+    </UserControl.Resources>
+    <Grid DataContext="{StaticResource angajatiViewSource}">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="#FF797A07" Offset="0.941"/>
+                <GradientStop Color="#FF728600" Offset="0.941"/>
                 <GradientStop Color="#FF0B3413"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -26,5 +30,125 @@
 
 
         </StackPanel>
+        <DataGrid x:Name="angajatiDataGrid" 
+                  AutoGenerateColumns="False" 
+                  EnableRowVirtualization="True" 
+                  ItemsSource="{Binding}" 
+                  Margin="23,11,343.4,203.8" 
+                  RowDetailsVisibilityMode="VisibleWhenSelected"
+                  IsReadOnly="True"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                  Style="{StaticResource DataGridStyle}" Background="{x:Null}"
+                  CellStyle="{StaticResource CellStyle}"
+                  >
+            <DataGrid.Columns>
+
+                <DataGridTextColumn x:Name="numeColumn" Binding="{Binding Nume}" Header="Nume" Width="80"/>
+                <DataGridTextColumn x:Name="prenumeColumn" Binding="{Binding Prenume}" Header="Prenume" Width="80"/>
+                <DataGridTextColumn x:Name="emailColumn" Binding="{Binding Email}" Header="Email" Width="170"/>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="483,36,0,0" VerticalAlignment="Top" Width="215">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Email:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"
+                   Foreground="White"/>
+            <TextBox x:Name="emailTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Email, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"/>
+
+            <Label Content="Nume:" Grid.Column="0" Margin="3,3,26.4,3" Grid.Row="1" VerticalAlignment="Center"
+                   Foreground="White"/>
+            <TextBox x:Name="numeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Nume, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"/>
+            <Label Content="Prenume:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"
+                   Foreground="White"/>
+            <TextBox x:Name="prenumeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Prenume, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"/>
+        </Grid>
+        <Button x:Name="btnAddAngajat" 
+                Content="Add" 
+                HorizontalAlignment="Left" 
+                Margin="408,45,0,0" 
+                VerticalAlignment="Top" 
+                Width="75"
+                Style="{StaticResource CustomButtonStyle}" Click="btnAddAngajat_Click"/>
+        <Button x:Name="btnEditAngajat" 
+                Content="Edit" 
+                HorizontalAlignment="Left" 
+                Margin="407,77,0,0" 
+                VerticalAlignment="Top" 
+                Width="75"
+                Style="{StaticResource CustomButtonStyle}" Click="btnEditAngajat_Click"/>
+        <Button x:Name="btnDeleteAngajat" 
+                Content="Delete" 
+                HorizontalAlignment="Left" 
+                Margin="408,107,0,0" 
+                VerticalAlignment="Top" 
+                Width="75"
+                Style="{StaticResource CustomButtonStyle}" Click="btnDeleteAngajat_Click"/>
+        <RichTextBox x:Name="mailTextBox" HorizontalAlignment="Left" Height="91" Margin="341,219,0,0" VerticalAlignment="Top" Width="344"
+                     Background="#FFE3FFE0">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="Scrie mail"/>
+                </Paragraph>
+            </FlowDocument>
+
+        </RichTextBox>
+        <ListBox x:Name="lstAngajati" HorizontalAlignment="Left"
+                 Height="91" 
+                 Margin="23,219,0,0"
+                 VerticalAlignment="Top" 
+                 Width="212"
+                 Background="Transparent"
+                 Foreground="White" SelectedIndex="2"/>
+        <Button x:Name="btnAdauga" 
+                Content="Adauga" 
+                HorizontalAlignment="Left" 
+                Margin="236,236,0,0" 
+                VerticalAlignment="Top"
+                Width="75" Click="btnAdauga_Click"
+                Style="{StaticResource CustomButtonStyle}"/>
+        <Button x:Name="btnTrimite" 
+                Content="Trimite" 
+                HorizontalAlignment="Left" 
+                Margin="610,310,0,0" 
+                VerticalAlignment="Top" 
+                Width="75" Click="btnTrimite_Click"
+                Style="{StaticResource CustomButtonStyle}"/>
+        <Button x:Name="btnSterge" 
+                Content="Sterge" 
+                HorizontalAlignment="Left"
+                Margin="236,266,0,0" 
+                VerticalAlignment="Top" 
+                Width="75" Click="btnSterge_Click"
+                Style="{StaticResource CustomButtonStyle}"/>
+
+        <Line
+         X1="10" Y1="60"
+         X2="300" Y2="60"
+          Stroke="White"
+         StrokeThickness="2" Margin="202,137,244.4,161.8" />
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="329,174,0,0" 
+                   TextWrapping="Wrap" 
+                   Text="E-Mail" 
+                   VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontStyle="Italic" Foreground="White"
+                   />
+        <TextBlock HorizontalAlignment="Left" Margin="33,203,0,0" TextWrapping="Wrap" Text="Destinatari" VerticalAlignment="Top"
+                   Foreground="White" FontStyle="Italic" FontWeight="Bold"/>
+
     </Grid>
 </UserControl>

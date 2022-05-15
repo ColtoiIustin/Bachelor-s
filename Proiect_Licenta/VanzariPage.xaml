@@ -11,17 +11,22 @@
         <CollectionViewSource x:Key="stocViewSource" d:DesignSource="{d:DesignInstance {x:Type DatabaseModel:Stoc}, CreateList=True}"/>
     </UserControl.Resources>
     <Grid DataContext="{StaticResource stocViewSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="#FF797A07" Offset="0.941"/>
+                <GradientStop Color="#FF728600" Offset="0.941"/>
                 <GradientStop Color="#FF0B3413"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <StackPanel  Orientation="Horizontal" Margin="0,310,484.4,-0.2" >
-            <Image Width="50" Height="50"
+        <Grid Grid.RowSpan="2">
+            <StackPanel  Orientation="Horizontal" Margin="0,310,484.4,-0.2" >
+                <Image Width="50" Height="50"
                  Source="Images/copac.png"  />
 
-            <TextBlock Text="SCDP Pomflora"
+                <TextBlock Text="SCDP Pomflora"
                        Foreground="Black"
                        FontSize="25"
                        Margin="10,0,0,0"
@@ -29,91 +34,177 @@
                        />
 
 
-        </StackPanel>
+            </StackPanel>
 
 
 
-        <DataGrid x:Name="stocDataGrid" 
+            <DataGrid x:Name="stocDataGrid" 
                   AutoGenerateColumns="False" 
                   EnableRowVirtualization="True" 
-                  ItemsSource="{Binding}" 
+                  ItemsSource="{Binding Source={StaticResource stocViewSource}}" 
                   Margin="23,26,332.4,102.8" 
                   RowDetailsVisibilityMode="VisibleWhenSelected"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                   Style="{StaticResource DataGridStyle}" Background="{x:Null}" IsReadOnly="True" 
-                  >
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="produsColumn" Binding="{Binding Produs}" Header="Produs" Width="134"/>
-                <DataGridTextColumn x:Name="cantitateColumn" Binding="{Binding Cantitate}" Header="Cantitate in kg/litri" Width="140"/>
-                <DataGridTextColumn x:Name="pretColumn" Binding="{Binding Pret}" Header="Pret per kg/litru" Width="105"/>
+                  CellStyle="{StaticResource CellStyle}"
+                      >
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="produsColumn" Binding="{Binding Produs}" Header="Produs" Width="134"/>
+                    <DataGridTextColumn x:Name="cantitateColumn" Binding="{Binding Cantitate}" Header="Cantitate in kg/litri" Width="140"/>
+                    <DataGridTextColumn x:Name="pretColumn" Binding="{Binding Pret}" Header="Pret per kg/litru" Width="105"/>
 
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBox x:Name="txtCantitate"
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBox x:Name="txtCantitate"
                  HorizontalAlignment="Left"
                  Height="23" Margin="237,269,0,0" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" Width="62"
                  Background="#FFE3FFE0"
                  />
-        <Label Content="Cantitate:" 
+            <Label Content="Cantitate:" 
                HorizontalAlignment="Left" 
-               Margin="163,269,0,0" 
+               Margin="168,269,0,0" 
                VerticalAlignment="Top"
                Foreground="White" 
                Height="26" 
                FontSize="14"
               />
-        <Button x:Name="btnAdauga" Content="Adauga in lista" 
+            <Button x:Name="btnAdauga" Content="Adauga in lista" 
                 HorizontalAlignment="Left" 
                 Margin="313,267,0,0" 
                 VerticalAlignment="Top" 
                 Width="105"
                 Style="{StaticResource CustomButtonStyle}" Click="btnAdauga_Click"/>
-        <ListBox x:Name="lstVanzare" HorizontalAlignment="Left" 
+            <ListBox x:Name="lstVanzare" HorizontalAlignment="Left" 
                  Height="236" Margin="444,26,0,0" 
                  VerticalAlignment="Top" 
                  Width="296"
                  Background="Transparent"
                  Foreground="White"
                  FontSize="14">
-            
-            
-           
-        </ListBox>
 
 
-        <Button x:Name="btnRefresh" Content="Refresh" 
+
+            </ListBox>
+
+
+            <Button x:Name="btnModificareStoc" Content="Modificare Stoc" 
                 HorizontalAlignment="Left" 
                 Margin="23,267,0,0" 
                 VerticalAlignment="Top" 
-                Width="75"
-                Style="{StaticResource CustomButtonStyle}" Click="btnRefresh_Click"/>
-        <Button x:Name="btnVanzare" 
+                Width="122"
+                Style="{StaticResource CustomButtonStyle}" Click="btnModificareStoc_Click"/>
+            <Button x:Name="btnVanzare" 
                 Content="Vanzare" 
                 HorizontalAlignment="Left" 
                 Margin="665,267,0,0" 
                 VerticalAlignment="Top" 
                 Width="75"
                 Style="{StaticResource CustomButtonStyle}" Click="btnVanzare_Click"/>
-        <Button x:Name="btnSterge" Content="Sterge din lista" 
+            <Button x:Name="btnSterge" Content="Sterge din lista" 
                 HorizontalAlignment="Left" 
                 Margin="555,267,0,0" 
                 VerticalAlignment="Top"
                 Width="105"
                 Style="{StaticResource CustomButtonStyle}" Click="btnSterge_Click"/>
-        <Label Content="Total:" 
+            <Label Content="Total:" 
                HorizontalAlignment="Left" 
                Margin="444,266,0,0" 
                VerticalAlignment="Top" 
                Width="40"
                Foreground="White"/>
-        <Label x:Name="lbltotal"
+            <Label x:Name="lbltotal"
                HorizontalAlignment="Left" 
                Margin="475,266,0,0" 
                VerticalAlignment="Top"
                Foreground="White" Height="26" Width="75"
                />
+            <CheckBox x:Name="checkFactura" Content="Generare factura" 
+                      HorizontalAlignment="Left" 
+                      Margin="634,340,0,0" 
+                      VerticalAlignment="Top"
+                      Foreground="White"/>
+        </Grid>
+
+        <Grid x:Name="gridStoc" HorizontalAlignment="Center"               
+              VerticalAlignment="Bottom"
+              Width="373"
+              Grid.Row="1"
+              Margin="0,0,40,5"
+              
+              >
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF124800" Offset="0.285"/>
+                    <GradientStop Color="#FF4B8006" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="grid1" HorizontalAlignment="Left" 
+                      VerticalAlignment="Top" 
+                      Grid.RowSpan="3"
+                      Grid.Column="2"
+                      >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <Label Content="Cantitate:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center" Foreground="White"/>
+                <TextBox x:Name="cantitateTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Cantitate, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     />
+                <Label Content="Pret:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center" Foreground="White"/>
+                <TextBox x:Name="pretTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Pret, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"
+                     PreviewTextInput="TextBox_PreviewTextInput"
+                     />
+                <Label Content="Produs:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center" Foreground="White"/>
+                <TextBox x:Name="produsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding Produs, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Background="#FFE3FFE0"/>
+            </Grid>
+
+            <Button x:Name="btnAddStoc" 
+                Content="Add" 
+                HorizontalAlignment="Center"                
+                VerticalAlignment="Center" 
+                Width="75"
+                Grid.Row="0"
+                Style="{StaticResource CustomButtonStyle}" Click="btnAddStoc_Click"
+                />
+            <Button x:Name="btnEditStoc" 
+                Content="Edit" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Width="75"
+                Grid.Row="1"
+                Style="{StaticResource CustomButtonStyle}" Click="btnEditStoc_Click"
+                />
+            <Button 
+            x:Name="btnDeleteStoc" 
+            Content="Delete" 
+            HorizontalAlignment="Center" 
+            Grid.Row="2"
+            VerticalAlignment="Center" 
+            Width="75"
+            Style="{StaticResource CustomButtonStyle}" Click="btnDeleteStoc_Click"
+            />
+
+        </Grid>
+
 
 
 

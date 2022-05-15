@@ -50,6 +50,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Words, Version=22.5.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.Words.22.5.0\lib\net461\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words.Pdf2Word, Version=22.5.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>packages\Aspose.Words.22.5.0\lib\net461\Aspose.Words.Pdf2Word.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -80,9 +86,6 @@
     <Compile Include="AngajatiPage.xaml.cs">
       <DependentUpon>AngajatiPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StocPage.xaml.cs">
-      <DependentUpon>StocPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VanzariPage.xaml.cs">
       <DependentUpon>VanzariPage.xaml</DependentUpon>
     </Compile>
@@ -103,10 +106,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PlantatiePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StocPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,16 +165,7 @@
     <Resource Include="Images\icons8-tree-64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\copac1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\icons8-tree-63.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icons8-tree-60.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icons8-tree-61.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\copac.png" />
@@ -188,6 +178,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Resource Include="Images\icons8-xbox-x-50.png" />
+    <Resource Include="Images\icons8-login-64.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

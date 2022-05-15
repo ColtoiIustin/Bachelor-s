@@ -10,7 +10,7 @@ namespace DatabaseModel
     public partial class Angajati
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        
         public int IdAngajat { get; set; }
 
         [StringLength(50)]

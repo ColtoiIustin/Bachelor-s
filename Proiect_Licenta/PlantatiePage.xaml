@@ -20,7 +20,7 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="#FF797A07" Offset="0.941"/>
+                <GradientStop Color="#FF728600" Offset="0.941"/>
                 <GradientStop Color="#FF0B3413"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -47,6 +47,7 @@
                   RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                   Style="{StaticResource DataGridStyle}" Background="{x:Null}" 
+                  CellStyle="{StaticResource CellStyle}"
                   >
 
             <DataGrid.Columns>
@@ -96,13 +97,14 @@
                   RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                   Style="{StaticResource DataGridStyle}" 
+                  CellStyle="{StaticResource CellStyle}"
                   >
 
 
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn x:Name="proiectColumn" Binding="{Binding Proiect}" Header="Denumire Proiect" Width="235"/>
+                <DataGridTextColumn x:Name="proiectColumn" Binding="{Binding Proiect}" Header="Activitati curente" Width="235"/>
 
                 <DataGridTemplateColumn x:Name="dataInceperiiColumn" Header="Data Inceperii" Width="100" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -200,7 +202,7 @@
                      Width="100" 
                      Margin="53,154,0,0"
                      Minimum="0"
-                     Maximum="250" Background="#FF6B6400" Foreground="#FF053401" BorderBrush="#FF053401"/>
+                     Maximum="250" Background="#FF76B052" Foreground="#FF053401" BorderBrush="#FF053401"/>
         <TextBlock HorizontalAlignment="Left"
                    Margin="159,154,0,0" 
                    TextWrapping="Wrap" 

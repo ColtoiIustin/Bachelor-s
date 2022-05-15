@@ -1,19 +1,28 @@
-﻿<Window x:Class="Proiect_Licenta.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proiect_Licenta"
+        xmlns:DatabaseModel="clr-namespace:DatabaseModel;assembly=DatabaseModel" x:Class="Proiect_Licenta.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="750"
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
+        Loaded="Window_Loaded"
         >
-     
+
     <Window.Resources>
-        <ResourceDictionary Source="Styles/MenuButtonStyle.xaml"/>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary  Source="Styles/MenuButtonStyle.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="IstoricVanzariViewSource" d:DesignSource="{d:DesignInstance {x:Type DatabaseModel:IstoricVanzari}, CreateList=True}"/>
+        </ResourceDictionary>
+
     </Window.Resources>
     <Grid >
         <Grid.Background>
@@ -37,6 +46,7 @@
                              Style="{StaticResource MenuButtonStyle}" Checked="btnPlantatie_Checked"
                              />
 
+
                 <RadioButton x:Name="btnVanzari"
                              Foreground="White"                             
                              Margin="20,5,30,4"
@@ -45,14 +55,7 @@
                              Content="Vanzari"
                              Style="{StaticResource MenuButtonStyle}" Checked="btnVanzari_Checked"
                              />
-                <RadioButton x:Name="btnStoc"
-                             Foreground="White"                             
-                             Margin="20,5,30,4"
-                             FontSize="17"
-                             FontWeight="Regular"
-                             Content="Stoc"
-                             Style="{StaticResource MenuButtonStyle}" Checked="btnStoc_Checked"
-                             />
+
                 <RadioButton x:Name="btnAngajati"
                              Foreground="White"                             
                              Margin="20,5,30,4"
@@ -61,18 +64,246 @@
                              Content="Angajati"
                              Style="{StaticResource MenuButtonStyle}" Checked="btnAngajati_Checked"
                              />
-           
+
+                <RadioButton x:Name="btnParole"
+                             Foreground="White"                             
+                             Margin="20,5,30,4"
+                             FontSize="17"
+                             FontWeight="Regular"
+                             Content="Conturi si Istoric"
+                             Style="{StaticResource MenuButtonStyle}" Checked="btnParole_Checked"
+                             />
+                <Image x:Name="imgLogin" Width="30" Height="30" HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="170,0,10,0"
+                 Source="Images/icons8-login-64.png" MouseDown="imgLogin_Click"  
+                       />
+
+                <Image x:Name="imgExit" Width="30" Height="30" HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       
+                 Source="Images/icons8-xbox-x-50.png" MouseDown="imgExit_Click"   
+                       />
+
             </StackPanel>
+
+
+
         </Grid>
         <Grid Grid.Row="1">
-            <local:PlantatiePage x:Name="plantatie" Loaded="plantatie_Loaded"></local:PlantatiePage>
-            <local:VanzariPage x:Name="vanzari" Visibility="Collapsed"></local:VanzariPage>
-            <local:StocPage x:Name="stoc" Visibility="Collapsed"></local:StocPage>
-            <local:AngajatiPage x:Name="angajati" Visibility="Collapsed"></local:AngajatiPage>
-            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="286*"/>
+                <ColumnDefinition Width="89*"/>
+            </Grid.ColumnDefinitions>
+            <local:PlantatiePage x:Name="plantatie" Loaded="plantatie_Loaded" Grid.ColumnSpan="2" Margin="0,0,0.4,-0.2"/>
+            <local:VanzariPage x:Name="vanzari" Visibility="Collapsed" Grid.ColumnSpan="2" Margin="0,0,0.4,-0.2"/>
+            <local:AngajatiPage x:Name="angajati" Visibility="Collapsed" Grid.ColumnSpan="2" Margin="0,0,0.4,-0.2"/>
+
+        </Grid>
+        <Grid  x:Name="gridLogare" Grid.RowSpan="2" IsVisibleChanged="gridLogare_IsVisibleChanged">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF6E9730" Offset="0.941"/>
+                    <GradientStop Color="#FF07250D"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <ComboBox x:Name="cmbCont" HorizontalAlignment="Left" 
+                      Margin="154,161,0,0" 
+                      VerticalAlignment="Top"
+                      Width="120"
+                      Background="#FFE3FFE0">
+                <ComboBoxItem Content="Director"/>
+                <ComboBoxItem Content="Angajat"/>
+            </ComboBox>
+            <PasswordBox x:Name="loginTextBox" HorizontalAlignment="Left"
+                         Margin="306,161,0,0"
+                         VerticalAlignment="Top"
+                         Width="120" Height="23"
+                         KeyDown="loginTextBox_KeyDown"
+                         Background="#FFE3FFE0"/>
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="306,145,0,0"
+                       TextWrapping="Wrap"
+                       Text="Parola:"
+                       VerticalAlignment="Top"
+                       Foreground="White"/>
+            <TextBlock HorizontalAlignment="Left" 
+                Margin="154,145,0,0"
+                TextWrapping="Wrap"
+                Text="Utilizator:"
+                VerticalAlignment="Top"
+                Foreground="White"/>
+            <Button x:Name="btnLogare" Content="Logare" 
+                    HorizontalAlignment="Left"
+                    Margin="446,159,0,0"
+                    VerticalAlignment="Top" Width="75"
+                    Style="{StaticResource CustomButtonStyle}" Click="btnLogare_Click"/>
+            <TextBlock HorizontalAlignment="Center"
+                       Margin="50,70,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Log In" 
+                       VerticalAlignment="Top"
+                       Height="70" Width="188" FontSize="28"
+                       Foreground="White" FontStyle="Italic" FontWeight="Bold"/>
+
+            <StackPanel  Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left"
+                         VerticalAlignment="Bottom">
+                <Image Width="50" Height="50" 
+                 Source="Images/copac.png"  
+                       />
+
+                <TextBlock Text="SCDP Pomflora"
+                       Foreground="Black"
+                       FontSize="25"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Bottom" FontFamily="Gloucester MT Extra Condensed"
+                       />
+
+
+            </StackPanel>
+            <Image x:Name="imgExitLogin" Width="30" Height="30" HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Margin="0,3,5,0"
+                 Source="Images/icons8-xbox-x-50.png" MouseDown="imgExit_Click"   
+                       />
         </Grid>
 
+        <Grid x:Name="parole" Grid.Row="1" >
+            <Grid DataContext="{StaticResource IstoricVanzariViewSource}">
+
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FF728600" Offset="0.941"/>
+                        <GradientStop Color="#FF0B3413"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left"
+                             VerticalAlignment="Bottom" Margin="0,0,0,-0.2">
+                <Image Width="50" Height="50"
+                 Source="Images/copac.png"  
+                  />
+
+                <TextBlock Text="SCDP Pomflora"
+                       Foreground="Black"
+                       FontSize="25"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Bottom" FontFamily="Gloucester MT Extra Condensed"
+                  />
+
+
+                </StackPanel>
+                <PasswordBox x:Name="parolaCurenta" HorizontalAlignment="Left" 
+                         Margin="190,87,0,0" 
+                         VerticalAlignment="Top" 
+                         Width="106"
+                             Background="#FFE3FFE0"/>
+                <PasswordBox x:Name="parolaNoua" HorizontalAlignment="Left"
+                         Margin="190,149,0,0" 
+                         VerticalAlignment="Top" 
+                         Width="106"
+                             Background="#FFE3FFE0"/>
+                <PasswordBox x:Name="confirmaParola" HorizontalAlignment="Left" 
+                         Margin="190,209,0,0" 
+                         VerticalAlignment="Top"
+                         Width="106"
+                             Background="#FFE3FFE0"/>
+                <TextBlock HorizontalAlignment="Left"
+                       Margin="190,69,0,0" 
+                       TextWrapping="Wrap" 
+                       Text="Parola Curenta:"
+                       VerticalAlignment="Top"
+                       Foreground="White"/>
+                <TextBlock HorizontalAlignment="Left" 
+                       Margin="190,133,0,0"
+                       TextWrapping="Wrap"
+                       Text="Parola Noua:"
+                       VerticalAlignment="Top"
+                       Foreground="White"/>
+                <TextBlock HorizontalAlignment="Left" 
+                       Margin="190,193,0,0" 
+                       TextWrapping="Wrap"
+                       Text="Confirma Parola:" 
+                       VerticalAlignment="Top"
+                       Foreground="White"/>
+                <Button x:Name="btnSchimba" Content="Schimba Parola" 
+                    HorizontalAlignment="Left"
+                    Margin="190,248,0,0" 
+                    VerticalAlignment="Top" Width="106"
+                    Style="{StaticResource CustomButtonStyle}" Click="btnSchimba_Click"/>
+                <ComboBox x:Name="cmbConturi" HorizontalAlignment="Left" 
+                      Margin="27,85,0,0" 
+                      VerticalAlignment="Top" 
+                      Width="120"
+                          Background="#FFE3FFE0">
+                    <ComboBoxItem Content="Director"/>
+                    <ComboBoxItem Content="Angajati"/>
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" 
+                           Margin="27,66,0,0" 
+                           TextWrapping="Wrap" 
+                           Text="Utilizator:"
+                           VerticalAlignment="Top"
+                           Foreground="White"/>
+                <TextBlock HorizontalAlignment="Left"
+                           Margin="112,10,0,0" 
+                           TextWrapping="Wrap"
+                           Text="Conturi"
+                           VerticalAlignment="Top"
+                           Foreground="White" FontSize="18" FontWeight="Bold" FontStyle="Italic"/>
+                <TextBlock HorizontalAlignment="Left"
+                           Margin="513,10,0,0"
+                           TextWrapping="Wrap" 
+                           Text="Istoric Vanzari" 
+                           VerticalAlignment="Top" 
+                           Height="27" Width="149"
+                           Foreground="White" FontSize="18" FontWeight="Bold" FontStyle="Italic"/>
+
+                <Line
+                  X1="10" Y1="60"
+                  X2="300" Y2="60"
+                  Stroke="White"
+                  StrokeThickness="2" Margin="71,-23,531.4,321.8" />
+                <Line
+                  X1="10" Y1="60"
+                  X2="300" Y2="60"
+                  Stroke="White"
+                  StrokeThickness="2" Margin="479,-23,88.4,321.8" />
+                <DataGrid x:Name="istoricDataGrid" 
+                          AutoGenerateColumns="False"
+                          EnableRowVirtualization="True" 
+                          ItemsSource="{Binding}"
+                          Margin="427,90,36.4,132.8"
+                          RowDetailsVisibilityMode="VisibleWhenSelected"
+                          ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                          Style="{StaticResource DataGridStyle}" 
+                          CellStyle="{StaticResource CellStyle}"
+                          >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="IdColumn" Binding="{Binding Id}" Header="Id" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="DataVanzareColumn" Binding="{Binding DataVanzare}" Header="Data Vanzare" Width="150"/>
+                        <DataGridTextColumn x:Name="PretColumn" Binding="{Binding Pret}" Header="Pret in RON" Width="76"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="btnStergeVanzare" Content="Sterge Vanzare"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top"
+                        Width="106" Margin="518,248,0,0"
+                        Style="{StaticResource CustomButtonStyle}" Click="btnStergeVanzare_Click"
+                        />
+
+
+
+
+
+
+
+            </Grid>
+        </Grid>
+
+
+
     </Grid>
+
 
 
 

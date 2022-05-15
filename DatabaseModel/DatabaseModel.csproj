@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Angajati.cs" />
     <Compile Include="DatabaseEntitiesModel.cs" />
+    <Compile Include="IstoricVanzari.cs" />
+    <Compile Include="Logare.cs" />
     <Compile Include="Plantatie.cs" />
     <Compile Include="Proiecte.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

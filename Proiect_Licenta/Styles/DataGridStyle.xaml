@@ -30,4 +30,23 @@
         <Setter Property="IsEnabled" Value="True"/>
 
     </Style>
+
+    <Style TargetType="DataGridCell" x:Key="CellStyle">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" >
+                    <Setter.Value>
+                        <SolidColorBrush Color="White" Opacity="0.08"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderBrush" >
+                    <Setter.Value>
+                        <SolidColorBrush Color="White" Opacity="0.08"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
 </ResourceDictionary>

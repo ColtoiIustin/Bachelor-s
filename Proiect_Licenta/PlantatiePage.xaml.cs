@@ -17,8 +17,6 @@ using System.Data.Entity;
 using System.Data;
 
 
-
-
 namespace Proiect_Licenta
 {
 
@@ -80,24 +78,27 @@ namespace Proiect_Licenta
             {
                 if (plantaTextBox.Text.Trim().Length > 2)
                 {
-                    plantatie = new Plantatie()
+                    if (suprafata + decimal.Parse(suprafataCultivataTextBox.Text) <= 250)
                     {
-                        Planta = plantaTextBox.Text.Trim(),
-                        Soi = soiTextBox.Text.Trim(),
-                        SuprafataCultivata = suprafataCultivataTextBox.Text.Trim(),
-                        Recoltare = recoltareTextBox.Text.Trim()
+                        plantatie = new Plantatie()
+                        {
+                            Planta = plantaTextBox.Text.Trim(),
+                            Soi = soiTextBox.Text.Trim(),
+                            SuprafataCultivata = suprafataCultivataTextBox.Text.Trim(),
+                            Recoltare = recoltareTextBox.Text.Trim()
 
-                    };
-                    ctx.Plantatie.Add(plantatie);
-                    suprafata = suprafata + decimal.Parse(suprafataCultivataTextBox.Text);
-                    Valoare.Content = suprafata;
-                    Progressbar.Value = double.Parse(suprafata.ToString());
-                    procent = (suprafata / 250) * 100;
-                    int x = (int)procent;
-                    txtProcente.Text = x.ToString() + "%";
+                        };
+                        ctx.Plantatie.Add(plantatie);
+                        suprafata = suprafata + decimal.Parse(suprafataCultivataTextBox.Text);
+                        Valoare.Content = suprafata;
+                        Progressbar.Value = double.Parse(suprafata.ToString());
+                        procent = (suprafata / 250) * 100;
+                        int x = (int)procent;
+                        txtProcente.Text = x.ToString() + "%";
 
-                    ctx.SaveChanges();
-                    plantatieVSource.View.Refresh();
+                        ctx.SaveChanges();
+                        plantatieVSource.View.Refresh();
+                    } else MessageBox.Show("Suprafata disponibila este depasita!");
                 }
                 else MessageBox.Show("Campuri goale");
 
@@ -115,27 +116,32 @@ namespace Proiect_Licenta
         {
             Plantatie plantatie = null;
             try
-            {
-
-
+            {  
                 plantatie = (Plantatie)plantatieDataGrid.SelectedItem;
-                suprafata = suprafata - decimal.Parse(plantatie.SuprafataCultivata);
-                plantatie.Planta = plantaTextBox.Text.Trim();
-                plantatie.Soi = soiTextBox.Text.Trim();
-                plantatie.SuprafataCultivata = suprafataCultivataTextBox.Text.Trim();
-                plantatie.Recoltare = recoltareTextBox.Text.Trim();
+                if (plantatieDataGrid.SelectedItem != null)
+                {
+                    if (suprafata - decimal.Parse(plantatie.SuprafataCultivata) + decimal.Parse(suprafataCultivataTextBox.Text) <= 250)
+                    {
+                        suprafata = suprafata - decimal.Parse(plantatie.SuprafataCultivata);
+                        plantatie.Planta = plantaTextBox.Text.Trim();
+                        plantatie.Soi = soiTextBox.Text.Trim();
+                        plantatie.SuprafataCultivata = suprafataCultivataTextBox.Text.Trim();
+                        plantatie.Recoltare = recoltareTextBox.Text.Trim();
 
-                suprafata=suprafata+ decimal.Parse(suprafataCultivataTextBox.Text);
-                Valoare.Content = suprafata;
-                Progressbar.Value = double.Parse(suprafata.ToString());
-                procent = (suprafata / 250) * 100;
-                int x = (int)procent;
-                txtProcente.Text = x.ToString() + "%";
+                        suprafata = suprafata + decimal.Parse(suprafataCultivataTextBox.Text);
+                        Valoare.Content = suprafata;
+                        Progressbar.Value = double.Parse(suprafata.ToString());
+                        procent = (suprafata / 250) * 100;
+                        int x = (int)procent;
+                        txtProcente.Text = x.ToString() + "%";
 
-                ctx.SaveChanges();
-                plantatieVSource.View.Refresh();
+                        ctx.SaveChanges();
+                        plantatieVSource.View.Refresh();
 
-
+                    }
+                    else MessageBox.Show("Suprafata disponibila este depasita!");
+                }
+                else MessageBox.Show("Selectati un item din tabel");
             }
             catch (Exception)
             {
@@ -146,47 +152,54 @@ namespace Proiect_Licenta
 
         private void btnDeletePlanta_Click(object sender, RoutedEventArgs e)
         {
-            Plantatie plantatie = null;
-            try
+            if (plantatieDataGrid.SelectedItem != null)
             {
-                plantatie = (Plantatie)plantatieDataGrid.SelectedItem;
-                suprafata = suprafata - decimal.Parse(plantatie.SuprafataCultivata);
-                Valoare.Content = suprafata;
-                Progressbar.Value = double.Parse(suprafata.ToString());
-                procent = (suprafata / 250) * 100;
-                int x = (int)procent;
-                txtProcente.Text = x.ToString() + "%";
-                ctx.Plantatie.Remove(plantatie);
-                ctx.SaveChanges();
+                Plantatie plantatie = null;
+                try
+                {
+                    plantatie = (Plantatie)plantatieDataGrid.SelectedItem;
+                    suprafata = suprafata - decimal.Parse(plantatie.SuprafataCultivata);
+                    Valoare.Content = suprafata;
+                    Progressbar.Value = double.Parse(suprafata.ToString());
+                    procent = (suprafata / 250) * 100;
+                    int x = (int)procent;
+                    txtProcente.Text = x.ToString() + "%";
+                    ctx.Plantatie.Remove(plantatie);
+                    ctx.SaveChanges();
+                }
+                catch (DataException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                plantatieVSource.View.Refresh();
             }
-            catch (DataException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            plantatieVSource.View.Refresh();
-            
+            else MessageBox.Show("Selectati un element din tabel!");
             
         }
 
         private void btnAddProiect_Click(object sender, RoutedEventArgs e)
         {
-            Proiecte proiecte = null;
-
-            if (proiectTextBox.Text.Trim().Length > 2)
+            if (dataInceperiiDatePicker.SelectedDate <= dataFinalizariiDatePicker.SelectedDate)
             {
+                Proiecte proiecte = null;
 
-                proiecte = new Proiecte()
+                if (proiectTextBox.Text.Trim().Length > 2)
                 {
-                    Proiect = proiectTextBox.Text.Trim(),
-                    DataInceperii = dataInceperiiDatePicker.SelectedDate,
-                    DataFinalizarii = dataFinalizariiDatePicker.SelectedDate
-                };
-                ctx.Proiecte.Add(proiecte);
 
-                ctx.SaveChanges();
-                proiecteVSource.View.Refresh();
+                    proiecte = new Proiecte()
+                    {
+                        Proiect = proiectTextBox.Text.Trim(),
+                        DataInceperii = dataInceperiiDatePicker.SelectedDate,
+                        DataFinalizarii = dataFinalizariiDatePicker.SelectedDate
+                    };
+                    ctx.Proiecte.Add(proiecte);
+
+                    ctx.SaveChanges();
+                    proiecteVSource.View.Refresh();
+                }
+                else MessageBox.Show("Campuri goale");
             }
-            else MessageBox.Show("Campuri goale");
+            else MessageBox.Show("Data inceperii este mai mare decat data finalizarii!");
 
 
 
@@ -195,46 +208,55 @@ namespace Proiect_Licenta
 
         private void btnEditProiect_Click(object sender, RoutedEventArgs e)
         {
-            Proiecte proiecte = null;
-            try
+            if (dataInceperiiDatePicker.SelectedDate <= dataFinalizariiDatePicker.SelectedDate)
             {
-
-                proiecte = (Proiecte)proiecteDataGrid.SelectedItem;
-                if (proiectTextBox.Text.Trim().Length > 2)
+                Proiecte proiecte = null;
+                try
                 {
-                    proiecte.Proiect = proiectTextBox.Text.Trim();
-                    proiecte.DataInceperii = dataInceperiiDatePicker.SelectedDate;
-                    proiecte.DataFinalizarii = dataFinalizariiDatePicker.SelectedDate;
-                    ctx.SaveChanges();
-                    proiecteVSource.View.Refresh();
+
+                    proiecte = (Proiecte)proiecteDataGrid.SelectedItem;
+                    if (proiectTextBox.Text.Trim().Length > 2)
+                    {
+                        proiecte.Proiect = proiectTextBox.Text.Trim();
+                        proiecte.DataInceperii = dataInceperiiDatePicker.SelectedDate;
+                        proiecte.DataFinalizarii = dataFinalizariiDatePicker.SelectedDate;
+                        ctx.SaveChanges();
+                        proiecteVSource.View.Refresh();
+                    }
+                    else MessageBox.Show("Campuri libere");
+
+
                 }
-                else MessageBox.Show("Campuri libere");
-
-
+                catch (Exception)
+                {
+                    MessageBox.Show("Acest camp nu poate fi editat");
+                } 
             }
-            catch (Exception)
-            {
-                MessageBox.Show("Acest camp nu poate fi editat");
-            }
+            else MessageBox.Show("Data inceperii este mai mare decat data finalizarii!");
         }
 
         private void btnDeleteProiect_Click(object sender, RoutedEventArgs e)
         {
-            Proiecte proiecte = null;
-            try
+            if (proiecteDataGrid.SelectedItem != null)
             {
-                proiecte = (Proiecte)proiecteDataGrid.SelectedItem;
-                ctx.Proiecte.Remove(proiecte);
-                ctx.SaveChanges();
+                Proiecte proiecte = null;
+                try
+                {
+                    proiecte = (Proiecte)proiecteDataGrid.SelectedItem;
+                    ctx.Proiecte.Remove(proiecte);
+                    ctx.SaveChanges();
+                }
+                catch (DataException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                proiecteVSource.View.Refresh();
             }
-            catch (DataException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            proiecteVSource.View.Refresh();
+            else MessageBox.Show("Selectati un element din tabel!");
         }
 
         
+        // functie ce permite doar introducerea de cifre si un singur punct intr-un TextBox:
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (e.Text != "." && IsNumber(e.Text) == false)
@@ -254,6 +276,10 @@ namespace Proiect_Licenta
             int output;
             return int.TryParse(Text, out output);
         }
+
+
+
+        
     }
 
 

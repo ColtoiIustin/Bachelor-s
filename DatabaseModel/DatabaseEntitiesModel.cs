@@ -13,9 +13,12 @@ namespace DatabaseModel
         }
 
         public virtual DbSet<Angajati> Angajati { get; set; }
+       
         public virtual DbSet<Plantatie> Plantatie { get; set; }
         public virtual DbSet<Proiecte> Proiecte { get; set; }
         public virtual DbSet<Stoc> Stoc { get; set; }
+        public virtual DbSet<Logare> Logare { get; set; }
+        public virtual DbSet<IstoricVanzari> IstoricVanzari { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,6 +29,10 @@ namespace DatabaseModel
             modelBuilder.Entity<Stoc>()
                 .Property(e => e.Pret)
                 .HasPrecision(5, 2);
+
+            modelBuilder.Entity<IstoricVanzari>()
+               .Property(e => e.Pret)
+               .HasPrecision(8, 2);
         }
     }
 }
