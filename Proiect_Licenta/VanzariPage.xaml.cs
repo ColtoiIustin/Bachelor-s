@@ -133,7 +133,8 @@ namespace Proiect_Licenta
                 string hour = (DateTime.Now.Hour).ToString();
                 string minute = (DateTime.Now.Minute).ToString();
 
-                doc.Save("Factura " + day + "." + month + "." + year + "  " + hour + "-" + minute + ".docx"); 
+                doc.Save("Factura " + day + "." + month + "." + year + "  " + hour + "-" + minute + ".docx");
+                MessageBox.Show("Factura a fost salvata in Proiect_Licenta/bin/Debug sub numele:   " +Environment.NewLine + day + "." + month + "." + year + "  " + hour + " - " + minute + ".docx");
             }
             produse = null;
             
